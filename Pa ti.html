@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>¿Volvemos a Intentarlo?</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+    h1 {
+      color: #d63384;
+      font-size: 2.5em;
+      margin-bottom: 50px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: absolute;
+    }
+    #yes {
+      background-color: #28a745;
+      color: white;
+      top: 250px;
+      left: 40%;
+    }
+    #no {
+      background-color: #dc3545;
+      color: white;
+      top: 250px;
+      left: 55%;
+    }
+    #respuesta {
+      margin-top: 300px;
+      font-size: 1.5em;
+      color: #6f42c1;
+      position: relative;
+    }
+    .petalo {
+      position: fixed;
+      width: 30px;
+      height: 30px;
+      /* Imagen del pétalo embebida en base64 para no depender de archivos externos */
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAXVBMVEUAAAD////k5OT7+/v29vbl5eXd3d2kpKRJSUm4uLjU1NSenp5ZWVktLS2NjY3U1NR1dXW0tLTPz8+jo6Ph4eHi4uLExMS5ubmkpKTY2NiYmJjMzMyWlpba2tr19fXQ0NDc3Nzv7+/b29vR0dHh4eGiioqOjo5BQUFN+X6/AAAASklEQVQoz62S0Q6AIAxEUT0Fdxv9/2y0SRAEKWZkxJaPkiXcEaZLQZoG3P9C1EshtHyTnEDgXkoQm1D8Jl4SIyqvh1ULr6APpYLO8E/jilqTz2vCkRAKnG0ljHN6oXHgAAAABJRU5ErkJggg==');
+      background-size: cover;
+      animation: caer 8s linear infinite;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    @keyframes caer {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>¿Quieres volver a intentarlo conmigo? 💖</h1>
+  <button id="yes">Sí, quiero 💕</button>
+  <button id="no">No... 😢</button>
+
+  <div id="respuesta"></div>
+
+  <script>
+    const btnNo = document.getElementById("no");
+    const btnYes = document.getElementById("yes");
+    const respuesta = document.getElementById("respuesta");
+
+    btnYes.addEventListener("click", () => {
+      respuesta.innerHTML = "¡Me haces muy feliz! ❤️ Empecemos de nuevo con todo nuestro amor.";
+    });
+
+    btnNo.addEventListener("mouseenter", () => {
+      const x = Math.floor(Math.random() * (window.innerWidth - 100));
+      const y = Math.floor(Math.random() * (window.innerHeight - 100));
+      btnNo.style.left = `${x}px`;
+      btnNo.style.top = `${y}px`;
+    });
+
+    function crearPetalo() {
+      const petalo = document.createElement("div");
+      petalo.classList.add("petalo");
+      petalo.style.left = Math.random() * 100 + "vw";
+      petalo.style.animationDuration = 6 + Math.random() * 4 + "s";
+      document.body.appendChild(petalo);
+
+      setTimeout(() => {
+        petalo.remove();
+      }, 8000);
+    }
+
+    setInterval(crearPetalo, 300);
+  </script>
+
+</body>
+</html>
