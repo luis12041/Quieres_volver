@@ -2,109 +2,114 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>¿Volvemos a Intentarlo?</title>
+  <title>Juego por Luis 💖</title>
   <style>
     body {
-      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding-top: 100px;
+      margin: 0;
+      padding: 0;
       overflow: hidden;
-      position: relative;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to top, #ffe0f0, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     h1 {
-      color: #d63384;
-      font-size: 2.5em;
-      margin-bottom: 50px;
+      margin: 20px;
+      color: #c2185b;
     }
-    button {
-      font-size: 1.2em;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      position: absolute;
-    }
-    #yes {
-      background-color: #28a745;
-      color: white;
-      top: 250px;
-      left: 40%;
-    }
-    #no {
-      background-color: #dc3545;
-      color: white;
-      top: 250px;
-      left: 55%;
-    }
-    #respuesta {
-      margin-top: 300px;
-      font-size: 1.5em;
-      color: #6f42c1;
+    #juego {
       position: relative;
+      width: 90vw;
+      height: 65vh;
+      overflow: hidden;
+      background-color: #fff0f5;
+      border: 3px solid #f48fb1;
     }
-    .petalo {
-      position: fixed;
-      width: 30px;
-      height: 30px;
-      /* Imagen del pétalo embebida en base64 para no depender de archivos externos */
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAXVBMVEUAAAD////k5OT7+/v29vbl5eXd3d2kpKRJSUm4uLjU1NSenp5ZWVktLS2NjY3U1NR1dXW0tLTPz8+jo6Ph4eHi4uLExMS5ubmkpKTY2NiYmJjMzMyWlpba2tr19fXQ0NDc3Nzv7+/b29vR0dHh4eGiioqOjo5BQUFN+X6/AAAASklEQVQoz62S0Q6AIAxEUT0Fdxv9/2y0SRAEKWZkxJaPkiXcEaZLQZoG3P9C1EshtHyTnEDgXkoQm1D8Jl4SIyqvh1ULr6APpYLO8E/jilqTz2vCkRAKnG0ljHN6oXHgAAAABJRU5ErkJggg==');
-      background-size: cover;
-      animation: caer 8s linear infinite;
-      opacity: 0.9;
-      pointer-events: none;
+    .corazon {
+      position: absolute;
+      font-size: 30px;
+      cursor: pointer;
+      animation: caer 5s linear forwards;
     }
     @keyframes caer {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 1;
-      }
+      0% { top: -50px; }
+      100% { top: 100vh; }
+    }
+    #puntos {
+      font-size: 24px;
+      margin-top: 10px;
+      color: #880e4f;
+    }
+    #mensajeFinal {
+      font-size: 26px;
+      color: #d81b60;
+      font-weight: bold;
+      margin-top: 10px; /* Más arriba */
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
+    #mensajeFinal.mostrar {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-
-  <h1>¿Quieres volver a intentarlo conmigo niña? 💖</h1>
-  <button id="yes">Sí, intentemoslo 💕</button>
-  <button id="no">Nooo 😢</button>
-
-  <div id="respuesta"></div>
+  <h1>💘 Niña linda, atrapa los corazones por Luis 💘</h1>
+  <div id="juego"></div>
+  <div id="puntos">Puntos: 0</div>
+  <div id="mensajeFinal"></div>
 
   <script>
-    const btnNo = document.getElementById("no");
-    const btnYes = document.getElementById("yes");
-    const respuesta = document.getElementById("respuesta");
+    const juego = document.getElementById('juego');
+    const puntosTexto = document.getElementById('puntos');
+    const mensajeFinal = document.getElementById('mensajeFinal');
 
-    btnYes.addEventListener("click", () => {
-      respuesta.innerHTML = "¡Es la respuesta que tanto esperaba! ❤️ Comenzemos esta historia en donde le pusimos pausa. Te amoooooo❤️";
-    });
+    let puntos = 0;
+    let corazonesCreados = 0;
+    const totalCorazones = 15;
 
-    btnNo.addEventListener("mouseenter", () => {
-      const x = Math.floor(Math.random() * (window.innerWidth - 100));
-      const y = Math.floor(Math.random() * (window.innerHeight - 100));
-      btnNo.style.left = `${x}px`;
-      btnNo.style.top = `${y}px`;
-    });
+    function crearCorazon() {
+      const corazon = document.createElement('div');
+      corazon.classList.add('corazon');
+      corazon.textContent = '💖';
+      corazon.style.left = Math.random() * 95 + 'vw';
+      corazon.style.top = '-50px';
 
-    function crearPetalo() {
-      const petalo = document.createElement("div");
-      petalo.classList.add("petalo");
-      petalo.style.left = Math.random() * 100 + "vw";
-      petalo.style.animationDuration = 6 + Math.random() * 4 + "s";
-      document.body.appendChild(petalo);
+      corazon.addEventListener('click', () => {
+        puntos++;
+        puntosTexto.textContent = "Puntos: " + puntos;
+        corazon.remove();
+      });
+
+      juego.appendChild(corazon);
 
       setTimeout(() => {
-        petalo.remove();
-      }, 8000);
+        if (juego.contains(corazon)) {
+          juego.removeChild(corazon);
+        }
+      }, 5000);
     }
 
-    setInterval(crearPetalo, 300);
-  </script>
+    const intervalo = setInterval(() => {
+      crearCorazon();
+      corazonesCreados++;
+      if (corazonesCreados >= totalCorazones) {
+        clearInterval(intervalo);
+        setTimeout(() => {
+          mostrarResultado();
+        }, 5500);
+      }
+    }, 900);
 
+    function mostrarResultado() {
+      if (puntos >= 10) {
+        mensajeFinal.textContent = "¡Felicidades niña! Tu niño también quiere volver contigo 💕";
+      } else {
+        mensajeFinal.textContent = "Tal vez no hoy... pero Luis no se rinde 💜";
+      }
+      mensajeFinal.classList.add('mostrar');
+    }
+  </script>
 </body>
 </html>
