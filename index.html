@@ -2,14 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Juego por Luis 💖</title>
+  <title>De Luis para Alondra 💘</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      overflow: hidden;
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to top, #ffe0f0, #ffffff);
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -21,10 +20,10 @@
     #juego {
       position: relative;
       width: 90vw;
-      height: 65vh;
-      overflow: hidden;
+      height: 60vh;
       background-color: #fff0f5;
       border: 3px solid #f48fb1;
+      overflow: hidden;
     }
     .corazon {
       position: absolute;
@@ -37,37 +36,73 @@
       100% { top: 100vh; }
     }
     #puntos {
-      font-size: 24px;
+      font-size: 20px;
       margin-top: 10px;
       color: #880e4f;
     }
-    #mensajeFinal {
-      font-size: 26px;
+    #carta {
+      display: none;
+      width: 85%;
+      margin-top: 10px;
+      padding: 20px;
+      background-color: #fff3f6;
+      border-radius: 15px;
+      border: 2px dashed #ec407a;
+      font-size: 18px;
       color: #d81b60;
-      font-weight: bold;
-      margin-top: 10px; /* Más arriba */
-      transition: opacity 0.5s ease;
-      opacity: 0;
+      text-align: center;
+      box-shadow: 0 0 15px #f8bbd0;
+      animation: fadeIn 2s ease-in-out;
+      position: relative;
+      top: -20px;
     }
-    #mensajeFinal.mostrar {
-      opacity: 1;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .flotante {
+      position: fixed;
+      font-size: 20px;
+      animation: flotar 6s infinite linear;
+      color: #f06292;
+      pointer-events: none;
+    }
+    @keyframes flotar {
+      from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    #reiniciar {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #f06292;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 0 8px #f8bbd0;
+    }
+    #reiniciar:hover {
+      background-color: #ec407a;
     }
   </style>
 </head>
 <body>
-  <h1>💘 Niña linda, atrapa los corazones por Luis 💘</h1>
+  <h1>💖 Niña, atrapa los corazones de Luis 💖</h1>
   <div id="juego"></div>
   <div id="puntos">Puntos: 0</div>
-  <div id="mensajeFinal"></div>
+  <div id="carta"></div>
+  <button id="reiniciar" onclick="location.reload()">Jugar otra vez 💘</button>
 
   <script>
     const juego = document.getElementById('juego');
     const puntosTexto = document.getElementById('puntos');
-    const mensajeFinal = document.getElementById('mensajeFinal');
-
+    const carta = document.getElementById('carta');
+    const btnReiniciar = document.getElementById('reiniciar');
     let puntos = 0;
-    let corazonesCreados = 0;
-    const totalCorazones = 15;
+    let creados = 0;
+    const total = 15;
 
     function crearCorazon() {
       const corazon = document.createElement('div');
@@ -93,22 +128,44 @@
 
     const intervalo = setInterval(() => {
       crearCorazon();
-      corazonesCreados++;
-      if (corazonesCreados >= totalCorazones) {
+      creados++;
+      if (creados >= total) {
         clearInterval(intervalo);
-        setTimeout(() => {
-          mostrarResultado();
-        }, 5500);
+        setTimeout(() => mostrarCarta(), 5500);
       }
     }, 900);
 
-    function mostrarResultado() {
+    function mostrarCarta() {
       if (puntos >= 10) {
-        mensajeFinal.textContent = "¡Felicidades niña! Tu niño también quiere volver contigo 💕";
+        escribirCarta("Hola niña linda:\n\nGracias por abrir este pequeño detalle. Solo quiero decirte lo especial que eres para mí. Estoy enamorado de tu persona, por dentro y por fuera. A pesar de todo lo que ha pasado, sigues siendo lo mejor que me pudo pasar.\n\n💌 Con cariño, tu niño.");
+        carta.style.display = "block";
+        crearCorazonesFlotantes();
       } else {
-        mensajeFinal.textContent = "Tal vez no hoy... pero Luis no se rinde 💜";
+        carta.textContent = "Casi lo logras, niña 💜. Pero Luis no se rinde tan fácil.";
+        carta.style.display = "block";
       }
-      mensajeFinal.classList.add('mostrar');
+      btnReiniciar.style.display = "inline-block";
+    }
+
+    function escribirCarta(texto) {
+      carta.innerHTML = '';
+      let i = 0;
+      const interval = setInterval(() => {
+        carta.innerHTML += texto[i] === '\n' ? '<br>' : texto[i];
+        i++;
+        if (i >= texto.length) clearInterval(interval);
+      }, 40);
+    }
+
+    function crearCorazonesFlotantes() {
+      for (let i = 0; i < 30; i++) {
+        const corazon = document.createElement('div');
+        corazon.classList.add('flotante');
+        corazon.textContent = '💗';
+        corazon.style.left = Math.random() * 100 + 'vw';
+        corazon.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(corazon);
+      }
     }
   </script>
 </body>
